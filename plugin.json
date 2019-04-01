@@ -1,0 +1,9 @@
+{
+    "name": "Colormaps",
+    "description": "Color mapping and labeling for large_image/HistomicsTK",
+    "version": "0.1.0",
+    "license": "Apache-2.0",
+    "grunt": {
+        "file": "Gruntfile.js"
+    }
+}
