@@ -30,7 +30,7 @@ class ColormapResource(Resource):
         self.route('GET', (':id', 'download', ':name'), self.download)
 
     @access.public(scope=TokenScope.DATA_READ)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Search for colormaps.')
         .responseClass('Colormap', array=True)
@@ -55,7 +55,7 @@ class ColormapResource(Resource):
         ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Create a colormap.')
         .responseClass('Colormap')
@@ -78,7 +78,7 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Create a colormap from a file.')
         .responseClass('Colormap')
@@ -106,10 +106,10 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Delete a colormap.')
-        .modelParam('id', model='colormap', plugin='large_image',
+        .modelParam('id', model='colormap', plugin='colormaps',
                     level=AccessType.WRITE)
         .errorResponse('ID was invalid.')
         .errorResponse('Write access was denied for the colormap.', 403)
@@ -118,11 +118,11 @@ class ColormapResource(Resource):
         Colormap().remove(colormap)
 
     @access.public(scope=TokenScope.DATA_READ)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Get colormap by ID.')
         .responseClass('Colormap')
-        .modelParam('id', model='colormap', plugin='large_image',
+        .modelParam('id', model='colormap', plugin='colormaps',
                     level=AccessType.READ)
         .errorResponse('ID was invalid.')
         .errorResponse('Read access was denied for the colormap.', 403)
@@ -131,11 +131,11 @@ class ColormapResource(Resource):
         return colormap
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Update a colormap.')
         .responseClass('Colormap')
-        .modelParam('id', model='colormap', plugin='large_image',
+        .modelParam('id', model='colormap', plugin='colormaps',
                     destName='model', level=AccessType.WRITE)
         .param('name', 'Name for the colormap.', required=False)
         .jsonParam('colormap', 'A JSON-encoded colormap.', required=False,
@@ -158,10 +158,10 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Get the access control list for a colormap.')
-        .modelParam('id', model='colormap', plugin='large_image',
+        .modelParam('id', model='colormap', plugin='colormaps',
                     level=AccessType.ADMIN)
         .errorResponse('ID was invalid.')
         .errorResponse('Admin access was denied for the colormap.', 403)
@@ -170,11 +170,11 @@ class ColormapResource(Resource):
         return Colormap().getFullAccessList(colormap)
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='large_image')
+    @filtermodel(model='colormap', plugin='colormaps')
     @autoDescribeRoute(
         Description('Update the access control list for a colormap.')
         .responseClass('Colormap')
-        .modelParam('id', model='colormap', plugin='large_image',
+        .modelParam('id', model='colormap', plugin='colormaps',
                     level=AccessType.ADMIN)
         .jsonParam('access', 'The JSON-encoded access control list.')
         .param('public', 'Whether the colormap should be publicly visible.',
