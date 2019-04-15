@@ -32,7 +32,7 @@ before_install:
   - CACHE=$HOME/.cache CMAKE_VERSION=3.4.3 CMAKE_SHORT_VERSION=3.4 source $GIRDER_PATH/scripts/install_cmake.sh
   - cmake --version
 
-  - slicer_cli_web_path=$girder_path/plugins/slicer_cli_web
+  - slicer_cli_web_path=$GIRDER_PATH/plugins/slicer_cli_web
   - git clone https://github.com/girder/slicer_cli_web.git $slicer_cli_web_path && git -C $slicer_cli_web_path checkout $SLICER_CLI_WEB_VERSION
 
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "3" ]; then export MONGO_VERSION=3.6.2; else export MONGO_VERSION=3.4.10; fi
