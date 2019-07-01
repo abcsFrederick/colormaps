@@ -13,7 +13,7 @@ $(function () {
                 'Admin',
                 'adminpassword!'));
 
-        it('view test histogram', function () {
+        it('view test colormap', function () {
             runs(function () {
                 girder.router.navigate('colormap/view', {trigger: true});
             });
