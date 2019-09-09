@@ -7,11 +7,11 @@ girderTest.startApp();
 $(function () {
     describe('Test colormap upload, selecting and deletion', function () {
         it('register a user (first is admin)',
-            girderTest.createUser('admin',
-                'admin@email.com',
-                'Admin',
-                'Admin',
-                'adminpassword!'));
+            girderTest.createUser('user',
+                'user@email.com',
+                'user',
+                'user',
+                'userpassword!'));
 
         it('view test colormap', function () {
             runs(function () {
@@ -19,6 +19,10 @@ $(function () {
             });
         });
         girderTest.waitForLoad();
+
+        it('colormap selector shows up', function () {
+            expect($('.h-colormap-row').length).toBe(1);
+        });
 
         it('upload and delete colormap', function () {
             runs(function () {

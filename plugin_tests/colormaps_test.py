@@ -79,7 +79,6 @@ class ColormapsTestCase(base.TestCase):
         colormap = data.get('colormap')
         labels = data.get('labels')
         newColormap = Colormap().createColormap(self.user, colormap, name=self.name, labels=labels)
-        # print newColormap
         return newColormap
 
     def testCreateColormap(self):
@@ -95,7 +94,6 @@ class ColormapsTestCase(base.TestCase):
         colormap = list(Colormap().find({'name': self.name}))[0]
         newColormap['name'] = 'test.json'
         newColormap['colormap'][0] = [0, 0, 0]
-        # print newColormap
         Colormap().updateColormap(newColormap)
         colormap = list(Colormap().find({'name': 'test.json'}))
         assert len(colormap) == 1
