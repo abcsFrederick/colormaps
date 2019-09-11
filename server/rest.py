@@ -21,6 +21,7 @@ class ColormapResource(Resource):
         self.resourceName = 'colormap'
         self.route('GET', (), self.find)
         self.route('POST', (), self.createColormap)
+        self.route('POST', ('gradient',), self.createColormapFromGradient)
         self.route('POST', ('file', ':fileId'), self.createColormapFromFile)
         self.route('DELETE', (':id',), self.deleteColormap)
         self.route('GET', (':id',), self.getColormap)
@@ -71,6 +72,29 @@ class ColormapResource(Resource):
         try:
             return Colormap().createColormap(
                 self.getCurrentUser(), colormap, name, labels, public)
+        except ValidationException as exc:
+            logger.exception('Failed to validate colormap')
+            raise RestException(
+                'Validation Error: JSON doesn\'t follow schema (%r).' % (
+                    exc.args, ))
+
+    @access.user(scope=TokenScope.DATA_WRITE)
+    @filtermodel(model='colormap', plugin='colormaps')
+    @autoDescribeRoute(
+        Description('Create a colormap.')
+        .responseClass('Colormap')
+        .param('name', 'Name for the colormap.', required=False, strip=True)
+        .param('public', 'Whether the colormap should be publicly visible.',
+               dataType='boolean', required=False, default=False)
+        .jsonParam('gradient', 'A array gradient.', paramType='path')
+        .jsonParam('labels', 'A JSON-encoded labels.', required=False,
+                   paramType='path')
+        .errorResponse('Write access was denied for the colormap.', 403)
+    )
+    def createColormapFromGradient(self, name, public, gradient, labels):
+        try:
+            return Colormap().createColormapFromGradient(
+                self.getCurrentUser(), gradient, name, labels, public)
         except ValidationException as exc:
             logger.exception('Failed to validate colormap')
             raise RestException(

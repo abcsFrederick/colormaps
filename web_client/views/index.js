@@ -1,5 +1,6 @@
 import * as widgets from './widgets';
-
+import configView from './configView';
 export {
-    widgets
+    widgets,
+    configView
 };

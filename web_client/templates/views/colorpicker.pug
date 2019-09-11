@@ -1,0 +1,10 @@
+.input-group
+  .input-group-prepend
+    span.input-group-text #{labelValue}:
+  input.g-colormaps-settings-label.input-sm.form-control(type="text", value=labelValue, title="Label name", placeholder="Label name (default: " + labelValue + ")")
+  .g-colormaps-settings-color.input-group-append
+    .input-group(style='width:100%')
+      .input-group-prepend
+        span.input-group-addon
+          i
+      input.form-control.input-sm.colorpicker-component(type="text", value="#000000")

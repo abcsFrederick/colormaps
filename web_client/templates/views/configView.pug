@@ -1,0 +1,16 @@
+.g-config-breadcrumb-container
+p.g-colormaps-settings-description
+  | Create customized colormap.
+
+form#g-colormaps-settings-form(role='form')
+  .form-group
+    label.control-label(for="g-colormaps-settings") Colormap name
+    p.g-colormaps-settings-description
+    input#g-colormaps-settings-name.input-sm.form-control(type="text", title="Default name of colormap in colormap.", placeholder="Give a name of your colormap", required)
+    label.control-label(for="g-colormaps-settings") Colormaps
+    p.g-colormaps-settings-description
+    .colorpickerTable
+    button#addLabel.btn.btn-sm.btn-primary(type="button")
+      span.icon-plus-squared New
+  p#g-colormaps-settings-error-message.g-validation-failed-message
+  input#saveColormaps.btn.btn-sm.btn-primary(type="submit", value="Save")

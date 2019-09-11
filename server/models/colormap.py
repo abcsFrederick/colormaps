@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from __future__ import division
 import datetime
 
 from bson.binary import Binary
@@ -81,6 +81,28 @@ class Colormap(AccessControlledModel):
                            save=False)
 
         return self.save(doc)
+
+    def createColormapFromGradient(self, creator, gradient, name=None, labels=None,
+                                   public=None):
+        # max pixel value
+        n = 256
+        colors = []
+
+        section = (n - 1) // (len(gradient) - 1)
+        remainder = (n - 1) % (len(gradient) - 1)
+
+        end = 0
+        for i, color in enumerate(gradient[:-1]):
+            start = end
+            end = start + section + (i < remainder)
+            for j in range(start, end):
+                colors.append([int(round((j - start)/(end - start) * (int(gradient[i +
+                                                                      1][channel])
+                                                                      -
+                                                                      int(gradient[i][channel]))
+                                         + int(gradient[i][channel]))) for channel in range(3)])
+        colors.append(map(int, gradient[-1]))
+        self.createColormap(creator, colors, name, labels, public)
 
     def updateColormap(self, doc, updateUser=None):
         """
