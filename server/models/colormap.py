@@ -103,7 +103,7 @@ class Colormap(AccessControlledModel):
                                                                       -
                                                                       int(gradient[i][channel]))
                                          + int(gradient[i][channel]))) for channel in range(3)])
-        colors.append(map(int, gradient[-1]))
+        colors.append(list(map(int, gradient[-1])))
         self.createColormap(creator, colors, name, labels, public)
 
     def updateColormap(self, doc, updateUser=None):
