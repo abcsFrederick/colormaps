@@ -88,6 +88,17 @@ class ColormapsTestCase(base.TestCase):
 
         assert len(colormap) == 1
 
+    def testCreateColormapFromGradient(self):
+        from girder.plugins.colormaps.models.colormap import Colormap
+        name = 'specTest'
+        gradient = [['0', '0', '0'], ['255', '255', '255']]
+        labels = ['background', 'Tumor']
+        Colormap().createColormapFromGradient(self.user, gradient, name=name, labels=labels)
+        colormap = list(Colormap().find({'name': 'specTest'}))
+        assert colormap[0]['colormap'][3] == [3, 3, 3]
+        assert colormap[0]['labels'][1] == 'Tumor'
+        assert len(colormap) == 1
+
     def testUpdateColormap(self):
         from girder.plugins.colormaps.models.colormap import Colormap
         newColormap = self._creatColormap()
