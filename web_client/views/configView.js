@@ -76,7 +76,8 @@ var ConfigView = View.extend({
                 timeout: 4000
             });
         }).fail((error) => {
-            this.$('#g-colormaps-settinsge-error-message').text(
+            console.log(error);
+            this.$('#g-colormaps-settings-error-message').text(
                 error.responseJSON.message
             );
         });

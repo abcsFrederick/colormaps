@@ -7,9 +7,9 @@ from bson.binary import Binary
 
 from girder.constants import AccessType
 from girder.models.model_base import AccessControlledModel
+from girder.exceptions import RestException
 
 
-# for PIL.ImagePalette
 def colormap_to_bytes(colormap, default=None):
     palette = []
     for i in range(3):
@@ -84,6 +84,8 @@ class Colormap(AccessControlledModel):
 
     def createColormapFromGradient(self, creator, gradient, name=None, labels=None,
                                    public=None):
+        if len(gradient) <= 1:
+            raise RestException('At least one label is needed except background')
         # max pixel value
         n = 256
         colors = []
