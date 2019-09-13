@@ -47,14 +47,14 @@ function _goToColormapsPluginSettings() {
         return $('.colorpickerTable').children().length === 1;
     }, 'Add one label rendered');
 
-    runs(function () {
-        $('#saveColormaps').click();
-    });
+    // runs(function () {
+    //     $('#saveColormaps').click();
+    // });
 
-    waitsFor(function () {
-        return $('#g-colormaps-settings-error-message').text() ===
-        'At least one label is needed except background';
-    }, 'Too less label error raise');
+    // waitsFor(function () {
+    //     return $('#g-colormaps-settings-error-message').text() ===
+    //     'At least one label is needed except background';
+    // }, 'Too less label error raise');
 
     runs(function () {
         colormapsCollection = new girder.plugins.colormaps.collections.ColormapCollection();
