@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from __future__ import division
 import datetime
 
 from bson.binary import Binary
 
 from girder.constants import AccessType
 from girder.models.model_base import AccessControlledModel
+from girder.exceptions import RestException
 
 
-# for PIL.ImagePalette
 def colormap_to_bytes(colormap, default=None):
     palette = []
     for i in range(3):
@@ -81,6 +81,30 @@ class Colormap(AccessControlledModel):
                            save=False)
 
         return self.save(doc)
+
+    def createColormapFromGradient(self, creator, gradient, name=None, labels=None,
+                                   public=None):
+        if len(gradient) <= 1:
+            raise RestException('At least one label is needed except background')
+        # max pixel value
+        n = 256
+        colors = []
+
+        section = (n - 1) // (len(gradient) - 1)
+        remainder = (n - 1) % (len(gradient) - 1)
+
+        end = 0
+        for i, color in enumerate(gradient[:-1]):
+            start = end
+            end = start + section + (i < remainder)
+            for j in range(start, end):
+                colors.append([int(round((j - start)/(end - start) * (int(gradient[i +
+                                                                      1][channel])
+                                                                      -
+                                                                      int(gradient[i][channel]))
+                                         + int(gradient[i][channel]))) for channel in range(3)])
+        colors.append(list(map(int, gradient[-1])))
+        self.createColormap(creator, colors, name, labels, public)
 
     def updateColormap(self, doc, updateUser=None):
         """
