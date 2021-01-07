@@ -31,7 +31,7 @@ class ColormapResource(Resource):
         self.route('GET', (':id', 'download', ':name'), self.download)
 
     @access.public(scope=TokenScope.DATA_READ)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Search for colormaps.')
         .responseClass('Colormap', array=True)
@@ -56,7 +56,7 @@ class ColormapResource(Resource):
         ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Create a colormap.')
         .responseClass('Colormap')
@@ -79,7 +79,7 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Create a colormap.')
         .responseClass('Colormap')
@@ -102,7 +102,7 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Create a colormap from a file.')
         .responseClass('Colormap')
@@ -130,7 +130,7 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Delete a colormap.')
         .modelParam('id', model='colormap', plugin='colormaps',
@@ -142,7 +142,7 @@ class ColormapResource(Resource):
         Colormap().remove(colormap)
 
     @access.public(scope=TokenScope.DATA_READ)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Get colormap by ID.')
         .responseClass('Colormap')
@@ -155,7 +155,7 @@ class ColormapResource(Resource):
         return colormap
 
     @access.user(scope=TokenScope.DATA_WRITE)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Update a colormap.')
         .responseClass('Colormap')
@@ -182,7 +182,7 @@ class ColormapResource(Resource):
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Get the access control list for a colormap.')
         .modelParam('id', model='colormap', plugin='colormaps',
@@ -194,7 +194,7 @@ class ColormapResource(Resource):
         return Colormap().getFullAccessList(colormap)
 
     @access.user(scope=TokenScope.DATA_OWN)
-    @filtermodel(model='colormap', plugin='colormaps')
+    @filtermodel(Colormap)
     @autoDescribeRoute(
         Description('Update the access control list for a colormap.')
         .responseClass('Colormap')

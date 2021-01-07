@@ -1,4 +1,4 @@
-import Collection from 'girder/collections/Collection';
+import Collection from '@girder/core/collections/Collection';
 
 import ColormapModel from '../models/ColormapModel';
 

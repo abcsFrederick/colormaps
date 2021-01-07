@@ -1,11 +1,11 @@
 import _ from 'underscore';
 
-import View from 'girder/views/View';
-import { restRequest } from 'girder/rest';
-import events from 'girder/events';
+import View from '@girder/core/views/View';
+import { restRequest } from '@girder/core/rest';
+import events from '@girder/core/events';
 
 import PluginConfigBreadcrumbWidget from
-    'girder/views/widgets/PluginConfigBreadcrumbWidget';
+    '@girder/core/views/widgets/PluginConfigBreadcrumbWidget';
 
 import ConfigViewTemplate from '../templates/views/configView.pug';
 import ColorpickerTemplate from '../templates/views/colorpicker.pug';
