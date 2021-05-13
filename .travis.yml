@@ -18,7 +18,7 @@ before_install:
   - GIRDER_VERSION=2.x-maintenance
   - GIRDER_PATH=$HOME/girder/girder
   - GIRDER_BUILD_PATH=$HOME/girder_build
-  - SLICER_CLI_WEB_VERSION=master
+  - SLICER_CLI_WEB_VERSION=2.x-maintenance
   - COLORMAPS_PATH=$TRAVIS_BUILD_DIR
 
   - mkdir -p $HOME/.cache/node_modules || true

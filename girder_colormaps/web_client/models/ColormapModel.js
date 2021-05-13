@@ -1,6 +1,6 @@
 /* eslint-disable backbone/no-silent */
 
-import AccessControlledModel from 'girder/models/AccessControlledModel';
+import AccessControlledModel from '@girder/core/models/AccessControlledModel';
 
 var ColormapModel = AccessControlledModel.extend({
     resourceName: 'colormap',

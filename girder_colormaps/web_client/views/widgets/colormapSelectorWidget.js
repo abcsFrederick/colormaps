@@ -1,14 +1,14 @@
 import _ from 'underscore';
 
-import Panel from 'girder_plugins/slicer_cli_web/views/Panel';
+import Panel from '@girder/slicer_cli_web/views/Panel';
 
-import { getCurrentUser } from 'girder/auth';
-import { handleClose } from 'girder/dialog';
-import { restRequest } from 'girder/rest';
-import UploadWidget from 'girder/views/widgets/UploadWidget';
+import { getCurrentUser } from '@girder/core/auth';
+import { handleClose } from '@girder/core/dialog';
+import { restRequest } from '@girder/core/rest';
+import UploadWidget from '@girder/core/views/widgets/UploadWidget';
 
-import FolderCollection from 'girder/collections/FolderCollection';
-import FileModel from 'girder/models/FileModel';
+import FolderCollection from '@girder/core/collections/FolderCollection';
+import FileModel from '@girder/core/models/FileModel';
 
 import ColormapCollection from '../../collections/ColormapCollection';
 

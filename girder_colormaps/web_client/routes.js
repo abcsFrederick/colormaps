@@ -1,7 +1,7 @@
-import router from 'girder/router';
+import router from '@girder/core/router';
 
-import events from 'girder/events';
-import { exposePluginConfig } from 'girder/utilities/PluginUtils';
+import events from '@girder/core/events';
+import { exposePluginConfig } from '@girder/core/utilities/PluginUtils';
 
 import ColormapWidget from './views/widgets/colormapSelectorWidget';
 import ConfigView from './views/configView';

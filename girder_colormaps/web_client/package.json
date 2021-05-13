@@ -1,0 +1,19 @@
+{
+    "name": "@girder/colormaps",
+    "version": "0.1.0",
+    "description": "Color mapping and labeling for large_image/HistomicsTK.",
+    "homepage": "https://github.com/abcsFrederick/colormaps",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/abcsFrederick/colormaps"
+    },
+    "peerDependencies": {
+        "@girder/core": "*"
+    },
+    "main": "./index.js",
+    "girderPlugin": {
+        "name": "colormaps",
+        "main": "./main.js"
+    }
+}

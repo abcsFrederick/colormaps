@@ -21,8 +21,15 @@
 #  limitations under the License.
 ###############################################################################
 
+from girder import plugin
 from .rest import ColormapResource
+from .models.colormap import Colormap
+from girder.utility.model_importer import ModelImporter
 
 
-def load(info):
+class ColormapsPlugin(plugin.GirderPlugin):
+  DISPLAY_NAME = 'Colormaps'
+  CLIENT_SOURCE_PATH = 'web_client'
+  def load(self, info):
+    ModelImporter.registerModel('colormap', Colormap, 'colormaps')
     info['apiRoot'].colormap = ColormapResource()
