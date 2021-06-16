@@ -10,10 +10,10 @@ from girder.models.model_base import AccessControlledModel
 from girder.exceptions import RestException
 
 
-def colormap_to_bytes(colormap, default=None):
+def colormap_to_bytes(colormap, labels, default=None):
     palette = []
     for i in range(3):
-        for j in range(256):
+        for j in range(int(max(labels)) + 1):
             try:
                 value = int(colormap[j][i])
             except KeyError:
@@ -69,7 +69,7 @@ class Colormap(AccessControlledModel):
         if labels is not None:
             doc['labels'] = labels
         if colormap:
-            doc['binary'] = Binary(colormap_to_bytes(doc['colormap']))
+            doc['binary'] = Binary(colormap_to_bytes(doc['colormap'], labels))
         else:
             doc['binary'] = None
 
@@ -88,8 +88,8 @@ class Colormap(AccessControlledModel):
             raise RestException('At least one label is needed except background')
         # max pixel value
         n = 256
+        n = int(max(labels)) + 1
         colors = []
-
         section = (n - 1) // (len(gradient) - 1)
         remainder = (n - 1) % (len(gradient) - 1)
 
