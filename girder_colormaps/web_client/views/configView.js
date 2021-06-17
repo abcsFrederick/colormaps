@@ -7,6 +7,7 @@ import events from '@girder/core/events';
 import PluginConfigBreadcrumbWidget from
     '@girder/core/views/widgets/PluginConfigBreadcrumbWidget';
 
+// import ColormapWidget from './widgets/colormapSelectorWidget';
 import ConfigViewTemplate from '../templates/views/configView.pug';
 import ColorpickerTemplate from '../templates/views/colorpicker.pug';
 
@@ -27,7 +28,8 @@ var ConfigView = View.extend({
             _.each($('.colorpicker-component'), (each) => {
                 gradient.push($(each).val().match(/([0-9]+\.?[0-9]*)/g));
             });
-            this._createColormap(labels, gradient, name);
+            let useAsIs = $('.g-colormaps-settings-useAsIs').is(':checked');
+            this._createColormap(labels, gradient, name, useAsIs);
         }
     },
     initialize: function (settings) {
@@ -47,7 +49,10 @@ var ConfigView = View.extend({
                 parentView: this
             }).render();
         }
-
+        // this.colormapSelector = new ColormapWidget({
+        //     parentView: this,
+        //     el: this.$('#colormap-selector-preview')
+        // }).render();
         return this;
     },
     addNewLabel(e) {
@@ -60,11 +65,13 @@ var ConfigView = View.extend({
         });
         this.numOfLabel = this.numOfLabel + 1;
     },
-    _createColormap(labels, gradient, name) {
+    _createColormap(labels, gradient, name, useAsIs) {
         restRequest({
             url: 'colormap/gradient',
             method: 'POST',
-            data: { name: name,
+            data: { 
+                name: name,
+                useAsIs: useAsIs,
                 gradient: JSON.stringify(gradient),
                 labels: JSON.stringify(labels)
             }

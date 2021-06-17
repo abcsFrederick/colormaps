@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 import datetime
-
+import numpy as np
 from bson.binary import Binary
 
 from girder.constants import AccessType
@@ -52,10 +52,11 @@ class Colormap(AccessControlledModel):
             'public',
             'publicFlags',
             'groups',
+            'useAsIs'
         ))
 
     def createColormap(self, creator, colormap, name=None, labels=None,
-                       public=None):
+                       public=None, useAsIs=None):
         now = datetime.datetime.utcnow()
         doc = {
             'creatorId': creator['_id'],
@@ -63,6 +64,7 @@ class Colormap(AccessControlledModel):
             'updatedId': creator['_id'],
             'updated': now,
             'colormap': colormap,
+            'useAsIs': useAsIs
         }
         if name is not None:
             doc['name'] = name
@@ -83,28 +85,55 @@ class Colormap(AccessControlledModel):
         return self.save(doc)
 
     def createColormapFromGradient(self, creator, gradient, name=None, labels=None,
-                                   public=None):
-        if len(gradient) <= 1:
-            raise RestException('At least one label is needed except background')
-        # max pixel value
-        n = 256
-        n = int(max(labels)) + 1
-        colors = []
-        section = (n - 1) // (len(gradient) - 1)
-        remainder = (n - 1) % (len(gradient) - 1)
+                                   public=None, useAsIs=None):
+        if useAsIs:
+            gradient = [list( map(int,i) ) for i in gradient]
+            labels = list(map(int, labels))
+            colors = np.zeros(256 * 3)
+            colors = colors.reshape(256,3)
+            hashtable = {}
 
-        end = 0
-        for i, color in enumerate(gradient[:-1]):
-            start = end
-            end = start + section + (i < remainder)
-            for j in range(start, end):
-                colors.append([int(round((j - start)/(end - start) * (int(gradient[i +
-                                                                      1][channel])
-                                                                      -
-                                                                      int(gradient[i][channel]))
-                                         + int(gradient[i][channel]))) for channel in range(3)])
-        colors.append(list(map(int, gradient[-1])))
-        self.createColormap(creator, colors, name, labels, public)
+            for index, label in enumerate(labels):
+                hashtable[label] = gradient[index]
+            _min = min(labels)
+            _max = max(labels)
+            for index, color in enumerate(colors):
+                if index >= _max:
+                    colors[index] = hashtable[_max]
+                elif index < _min:
+                    colors[index] = hashtable[_min]
+                else:
+                    try:
+                        colors[index] = hashtable[index]
+                    except:
+                        colors[index] = colors[index - 1]
+
+            colors = colors.tolist()
+
+            self.createColormap(creator, colors, name, labels, public, useAsIs)
+        else:
+            if len(gradient) <= 1:
+                raise RestException('At least one label is needed except background')
+            # max pixel value
+            n = 256
+            n = int(max(labels)) + 1
+            colors = []
+            section = (n - 1) // (len(gradient) - 1)
+            remainder = (n - 1) % (len(gradient) - 1)
+
+            end = 0
+            for i, color in enumerate(gradient[:-1]):
+                start = end
+                end = start + section + (i < remainder)
+                for j in range(start, end):
+                    colors.append([int(round((j - start)/(end - start) * (int(gradient[i +
+                                                                          1][channel])
+                                                                          -
+                                                                          int(gradient[i][channel]))
+                                             + int(gradient[i][channel]))) for channel in range(3)])
+            colors.append(list(map(int, gradient[-1])))
+
+            self.createColormap(creator, colors, name, labels, public, useAsIs)
 
     def updateColormap(self, doc, updateUser=None):
         """

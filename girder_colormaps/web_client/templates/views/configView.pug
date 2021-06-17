@@ -3,6 +3,7 @@ p.g-colormaps-settings-description
   | Create customized colormap.
 
 form#g-colormaps-settings-form(role='form')
+  //- #colormap-selector-preview
   .form-group
     label.control-label(for="g-colormaps-settings") Colormap name
     p.g-colormaps-settings-description
@@ -10,6 +11,10 @@ form#g-colormaps-settings-form(role='form')
     label.control-label(for="g-colormaps-settings") Colormaps
     p.g-colormaps-settings-description
     .colorpickerTable
+  .form-group
+    label.g-colormaps-settings-useAsIs Use As Is
+    input.g-colormaps-settings-useAsIs(type='checkbox')
+  .form-group
     button#addLabel.btn.btn-sm.btn-primary(type="button")
       span.icon-plus-squared New
   p#g-colormaps-settings-error-message.g-validation-failed-message
