@@ -4,6 +4,7 @@ with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 requirements = [
+    'girder-slicer-cli-web[girder]'
 ]
 
 setup(

@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import $ from 'jquery';
 
 import Panel from '@girder/slicer_cli_web/views/Panel';
 

@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import $ from 'jquery';
 
 import View from '@girder/core/views/View';
 import { restRequest } from '@girder/core/rest';
@@ -28,8 +29,8 @@ var ConfigView = View.extend({
             _.each($('.colorpicker-component'), (each) => {
                 gradient.push($(each).val().match(/([0-9]+\.?[0-9]*)/g));
             });
-            let useAsIs = $('.g-colormaps-settings-useAsIs').is(':checked');
-            this._createColormap(labels, gradient, name, useAsIs);
+            let labelmap = $('.g-colormaps-settings-labelmap').is(':checked');
+            this._createColormap(labels, gradient, name, labelmap);
         }
     },
     initialize: function (settings) {
@@ -65,13 +66,13 @@ var ConfigView = View.extend({
         });
         this.numOfLabel = this.numOfLabel + 1;
     },
-    _createColormap(labels, gradient, name, useAsIs) {
+    _createColormap(labels, gradient, name, labelmap) {
         restRequest({
             url: 'colormap/gradient',
             method: 'POST',
-            data: { 
+            data: {
                 name: name,
-                useAsIs: useAsIs,
+                labelmap: labelmap,
                 gradient: JSON.stringify(gradient),
                 labels: JSON.stringify(labels)
             }

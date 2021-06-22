@@ -4,6 +4,16 @@ girderTest.importPlugin('slicer_cli_web');
 girderTest.importPlugin('colormaps');
 girderTest.startApp();
 
+
+describe('Test colormap upload, selecting and deletion', function () {
+    console.log('---------------------ini--------------------')
+    var brandName = 'TestBrandName';
+    it('login', function () {
+        expect(1).toBe(1);
+        // girderTest.login('admin', 'Admin', 'Admin', 'password')();
+    });
+});
+/*
 function _goToColormapsPluginSettings() {
     var colormapsCollection, done;
     waitsFor(function () {
@@ -160,3 +170,4 @@ $(function () {
         });
     });
 });
+*/

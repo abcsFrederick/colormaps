@@ -52,11 +52,11 @@ class Colormap(AccessControlledModel):
             'public',
             'publicFlags',
             'groups',
-            'useAsIs'
+            'labelmap'
         ))
 
     def createColormap(self, creator, colormap, name=None, labels=None,
-                       public=None, useAsIs=None):
+                       public=None, labelmap=None):
         now = datetime.datetime.utcnow()
         doc = {
             'creatorId': creator['_id'],
@@ -64,7 +64,7 @@ class Colormap(AccessControlledModel):
             'updatedId': creator['_id'],
             'updated': now,
             'colormap': colormap,
-            'useAsIs': useAsIs
+            'labelmap': labelmap
         }
         if name is not None:
             doc['name'] = name
@@ -85,19 +85,19 @@ class Colormap(AccessControlledModel):
         return self.save(doc)
 
     def createColormapFromGradient(self, creator, gradient, name=None, labels=None,
-                                   public=None, useAsIs=None):
-        if useAsIs:
-            gradient = [list( map(int,i) ) for i in gradient]
+                                   public=None, labelmap=None):
+        if labelmap:
+            gradient = [list(map(int, i)) for i in gradient]
             labels = list(map(int, labels))
             colors = np.zeros(256 * 3)
-            colors = colors.reshape(256,3)
+            colors = colors.reshape(256, 3)
             hashtable = {}
 
             for index, label in enumerate(labels):
                 hashtable[label] = gradient[index]
             _min = min(labels)
             _max = max(labels)
-            for index, color in enumerate(colors):
+            for index, _color in enumerate(colors):
                 if index >= _max:
                     colors[index] = hashtable[_max]
                 elif index < _min:
@@ -105,12 +105,12 @@ class Colormap(AccessControlledModel):
                 else:
                     try:
                         colors[index] = hashtable[index]
-                    except:
+                    except Exception:
                         colors[index] = colors[index - 1]
 
             colors = colors.tolist()
 
-            self.createColormap(creator, colors, name, labels, public, useAsIs)
+            self.createColormap(creator, colors, name, labels, public, labelmap)
         else:
             if len(gradient) <= 1:
                 raise RestException('At least one label is needed except background')
@@ -122,35 +122,33 @@ class Colormap(AccessControlledModel):
             remainder = (n - 1) % (len(gradient) - 1)
 
             end = 0
-            for i, color in enumerate(gradient[:-1]):
+            for i, _color in enumerate(gradient[:-1]):
                 start = end
                 end = start + section + (i < remainder)
                 for j in range(start, end):
-                    colors.append([int(round((j - start)/(end - start) * (int(gradient[i +
-                                                                          1][channel])
-                                                                          -
-                                                                          int(gradient[i][channel]))
-                                             + int(gradient[i][channel]))) for channel in range(3)])
+                    colors.append([int(round((j - start) / (end - start) *
+                                  (int(gradient[i + 1][channel]) - int(gradient[i][channel])) +
+                                  int(gradient[i][channel]))) for channel in range(3)])
             colors.append(list(map(int, gradient[-1])))
 
-            self.createColormap(creator, colors, name, labels, public, useAsIs)
+            self.createColormap(creator, colors, name, labels, public, labelmap)
 
-    def updateColormap(self, doc, updateUser=None):
-        """
-        Update a colormap.
+    # def updateColormap(self, doc, updateUser=None):
+    #     """
+    #     Update a colormap.
 
-        :param docl: the colormap document to update.
-        :param updateUser: the user who is creating the update.
-        :returns: the colormap document that was updated.
-        """
-        doc['updated'] = datetime.datetime.utcnow()
-        doc['updatedId'] = updateUser['_id'] if updateUser else None
-        if 'colormap' in doc:
-            if doc['colormap']:
-                doc['binary'] = Binary(colormap_to_bytes(doc['colormap']))
-            else:
-                doc['binary'] = None
-        return self.save(doc)
+    #     :param docl: the colormap document to update.
+    #     :param updateUser: the user who is creating the update.
+    #     :returns: the colormap document that was updated.
+    #     """
+    #     doc['updated'] = datetime.datetime.utcnow()
+    #     doc['updatedId'] = updateUser['_id'] if updateUser else None
+    #     if 'colormap' in doc:
+    #         if doc['colormap']:
+    #             doc['binary'] = Binary(colormap_to_bytes(doc['colormap']))
+    #         else:
+    #             doc['binary'] = None
+    #     return self.save(doc)
 
     def validate(self, doc):
         return doc

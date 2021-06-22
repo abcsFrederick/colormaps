@@ -1,0 +1,6 @@
+include LICENSE
+include README.rst
+include setup.py
+
+graft girder_colormaps
+global-exclude *.py[co] *.cmake __pycache__ node_modules

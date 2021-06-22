@@ -28,8 +28,9 @@ from girder.utility.model_importer import ModelImporter
 
 
 class ColormapsPlugin(plugin.GirderPlugin):
-  DISPLAY_NAME = 'Colormaps'
-  CLIENT_SOURCE_PATH = 'web_client'
-  def load(self, info):
-    ModelImporter.registerModel('colormap', Colormap, 'colormaps')
-    info['apiRoot'].colormap = ColormapResource()
+    DISPLAY_NAME = 'Colormaps'
+    CLIENT_SOURCE_PATH = 'web_client'
+
+    def load(self, info):
+        ModelImporter.registerModel('colormap', Colormap, 'colormaps')
+        info['apiRoot'].colormap = ColormapResource()

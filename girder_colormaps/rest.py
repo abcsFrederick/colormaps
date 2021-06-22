@@ -75,7 +75,7 @@ class ColormapResource(Resource):
         except ValidationException as exc:
             logger.exception('Failed to validate colormap')
             raise RestException(
-                'Validation Error: JSON doesn\'t follow schema (%r).' % (
+                "Validation Error: JSON doesn\'t follow schema (%r)." % (
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
@@ -89,18 +89,18 @@ class ColormapResource(Resource):
         .jsonParam('gradient', 'A array gradient.', paramType='path')
         .jsonParam('labels', 'A JSON-encoded labels.', required=False,
                    paramType='path')
-        .param('useAsIs', 'Use the labels color as use defined',
+        .param('labelmap', 'Use the labels color as use defined',
                dataType='boolean', default=False, required=False)
         .errorResponse('Write access was denied for the colormap.', 403)
     )
-    def createColormapFromGradient(self, name, public, gradient, labels, useAsIs):
+    def createColormapFromGradient(self, name, public, gradient, labels, labelmap):
         try:
             return Colormap().createColormapFromGradient(
-                self.getCurrentUser(), gradient, name, labels, public, useAsIs)
+                self.getCurrentUser(), gradient, name, labels, public, labelmap)
         except ValidationException as exc:
             logger.exception('Failed to validate colormap')
             raise RestException(
-                'Validation Error: JSON doesn\'t follow schema (%r).' % (
+                "Validation Error: JSON doesn\'t follow schema (%r)." % (
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_WRITE)
@@ -128,7 +128,7 @@ class ColormapResource(Resource):
         except ValidationException as exc:
             logger.exception('Failed to validate colormap')
             raise RestException(
-                'Validation Error: JSON doesn\'t follow schema (%r).' % (
+                "Validation Error: JSON doesn\'t follow schema (%r)." % (
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
@@ -180,7 +180,7 @@ class ColormapResource(Resource):
         except ValidationException as exc:
             logger.exception('Failed to validate colormap')
             raise RestException(
-                'Validation Error: JSON doesn\'t follow schema (%r).' % (
+                "Validation Error: JSON doesn\'t follow schema (%r)." % (
                     exc.args, ))
 
     @access.user(scope=TokenScope.DATA_OWN)
